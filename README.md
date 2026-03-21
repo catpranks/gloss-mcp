@@ -8,9 +8,9 @@ Other MCP plugins are sloppy vibe code... so I vibe coded my own.
 - tasteful, compact tool instructions
 - annotates code with function header, addresses, instruction hex bytes, name->address comments
 - depends on python stdlib only
-- no separate bridge program, use socat/netcat-openbsd to connect
+- no separate bridge program, use MCP stdin protocol with socat/netcat-openbsd to connect
 
-# instructions
+## instructions
 
 1. Install the plugin
     ```sh
@@ -27,7 +27,7 @@ Other MCP plugins are sloppy vibe code... so I vibe coded my own.
 
 `GLOSS_MCP_SOCKET=/tmp/whatever binaryninja` to specify listening socket. Default is `@gloss-mcp`
 
-# development
+## development
 
 Prerequisites
 
