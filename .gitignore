@@ -1,0 +1,4 @@
+/.direnv
+/temp
+node_modules
+/tests/__pycache__

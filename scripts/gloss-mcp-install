@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+PLUGIN_NAME="gloss_mcp"
+PLUGIN_SRC="$(cd "$(dirname "$0")/../plugin/$PLUGIN_NAME" && pwd)"
+PLUGIN_DST="$HOME/.binaryninja/plugins/$PLUGIN_NAME"
+
+usage() {
+    echo "Usage: gloss-mcp-install {link|copy|remove}" >&2
+    exit 1
+}
+
+cmd_link() {
+    if [ -e "$PLUGIN_DST" ] || [ -L "$PLUGIN_DST" ]; then
+        echo "error: $PLUGIN_DST already exists" >&2
+        exit 1
+    fi
+    mkdir -p "$(dirname "$PLUGIN_DST")"
+    ln -s "$PLUGIN_SRC" "$PLUGIN_DST"
+    echo "linked $PLUGIN_DST -> $PLUGIN_SRC"
+}
+
+cmd_copy() {
+    if [ -e "$PLUGIN_DST" ] || [ -L "$PLUGIN_DST" ]; then
+        echo "error: $PLUGIN_DST already exists" >&2
+        exit 1
+    fi
+    mkdir -p "$(dirname "$PLUGIN_DST")"
+    cp -r "$PLUGIN_SRC" "$PLUGIN_DST"
+    echo "copied $PLUGIN_SRC -> $PLUGIN_DST"
+}
+
+cmd_remove() {
+    if [ ! -e "$PLUGIN_DST" ] && [ ! -L "$PLUGIN_DST" ]; then
+        echo "error: $PLUGIN_DST does not exist" >&2
+        exit 1
+    fi
+    rm -rf "$PLUGIN_DST"
+    echo "removed $PLUGIN_DST"
+}
+
+[ $# -eq 1 ] || usage
+
+case "$1" in
+    link)   cmd_link ;;
+    copy)   cmd_copy ;;
+    remove) cmd_remove ;;
+    *)      usage ;;
+esac
